@@ -1,0 +1,10 @@
+传递参数的方式
+	传递参数主要有两种类型：params和query
+		params 的类型：this.$route.params.id
+			配置路由格式：/router/:id
+			传递方式：在path后面跟上对应的值
+			传递后形成的路径：/router/123, /router/abc
+		query 的类型：this.$route.query.id
+			配置路由的格式： /router, 也就是普通配置
+			传递的方式：对象中使用 query 的 key 作为传递方式
+			传递后形成的路径： /router?id=123, /router?id=abc

@@ -1,0 +1,35 @@
+1. URL的hash
+    URL 的 hash 也就是锚点(#),本质上是改变 window.location 的 href 属性
+    我们可以通过直接赋值 location.hash 来改变 href , 但是页面不发生刷新
+      location.hash = 'aaa'
+        url -> http://localhost:8080/#/aaa
+
+2. HTML5 的 history 模式: pushState
+    压栈和出栈,先进后出,后进先出,有历史记录
+      history.pushState({}, '', 'home')   // 入栈
+        url -> http://localhost:8080/home
+          history.back()  // 出栈
+            等上
+          history.go(-1) 
+
+          history.forward()
+            等上
+          history.go(1)  
+            这四个就相当于浏览器界面的前进后退
+
+   没有历史记录,不能返回
+   HTML5 的 history 模式: replaceState
+      history.replaceState({}, '', 'home')
+        url -> http://localhost:8080/home
+
+
+URL: 协议(https)://主机(host):端口(8080)/路径(path)?查询(query --> 参数)     
+
+
+
+
+
+
+
+
+       
