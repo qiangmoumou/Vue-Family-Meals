@@ -9,7 +9,13 @@
 
 <script>
 	export default {
-		
+		name: 'Profile',
+		created() {       // data 和 mounted 已经初始化完成
+		  console.log('Profile created')
+		},
+		destroyed() {     // 销毁的生命周期函数   
+		  console.log('Profile destroyed')
+		}
 	}
 </script>
 

@@ -17,7 +17,16 @@
     <button @click="userClick">用户</button>
     <button @click="profileClick">档案</button>
 
-    <router-view></router-view>
+    
+  <!-- 解决离开时,home里面的新闻回来还是新闻,如果是消息离开的,回来还是消息 -->
+    <!-- keep-alive 遇到 vue-router -->
+    <!-- keep-alive 是 Vue 内置的一个组件,可以使被包含的组件保留状态,或避免重新渲染 -->
+    <!-- router-view 也是一个组件,如果直接被包在 keep-alive 里面,所有路径匹配到的视图组件都会被缓存 -->
+      <!-- 因为这里包裹的 router-view 包括了,首页,关于,用户,详情,所以它们都不反复执行创建和销毁了,但是现在,我唯独想让详情可以反复执行创建和销毁,怎么弄 -->
+    <keep-alive exclude="Profile">    <!-- 要想让某个组件解除 keep-alive , 就得把那个组件定义的 name 写在 keep-alive的exclude 中  exclude="Profile,User" (中间不能加空格)这样就是把User组件也排除了-->
+      <router-view></router-view>
+    </keep-alive>
+
   </div>
 </template>
 

@@ -15,11 +15,15 @@
  
 <script>
   export default {
+    name: 'User',
     data () {
       return {
         
       }
     },
+    // created() {
+    //   document.title = '用户'
+    // },
     // 可以用计算属性写方法
     computed: {
       userId() {
@@ -44,7 +48,13 @@
 
         console.log(this.name)
       }
-    }
+    },
+    created() {       // data 和 mounted 已经初始化完成
+		  console.log('User created')
+		},
+		destroyed() {     // 销毁的生命周期函数   
+		  console.log('User destroyed')
+		}
   }
 </script>
  
