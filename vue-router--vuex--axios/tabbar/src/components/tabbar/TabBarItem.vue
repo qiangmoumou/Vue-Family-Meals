@@ -13,10 +13,13 @@
 
 <script>
     export default {
+        // 动态 props
         props: {
             path: String,
             activeColor: {
+                // 类型
                 type: String,
+                // 默认值
                 default: 'red'
             }
         },
