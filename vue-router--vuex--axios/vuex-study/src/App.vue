@@ -18,6 +18,10 @@
     <!-- 获取年龄大于 age 的学生  , 这个 age 不写死,可以是别人给我传过来的 age -->
     <h2>{{$store.getters.moreAgeStu(9)}}</h2>
 
+    <h3>---------------App内容：info对象的内容是否是响应式-------------- --</h3>
+    <h2>{{ $store.state.info }}</h2>
+    <button @click="updateInfo">修改信息</button>
+
 
     <h5>--------Hello Vuex内容----------</h5>
     <hello-vuex/>
@@ -48,12 +52,22 @@
         this.$store.commit('decrement')
       },
       addCount(count) {   // 调用 vuex的 Mutation 传参
+        // 1. 普通的提交风格 (commit)
         // 参数被称为是 mutation 的载荷 payload: (负载)
-        this.$store.commit('incrementCount', count)   // 参数怎么传
+        // this.$store.commit('incrementCount', count)   // 参数怎么传
+
+        // 2. 特殊的提交风格  
+        this.$store.commit({
+          type: 'incrementCount',
+          count     // count: count
+        })
       },
       addStudent() {
         const stu = {id: 114, name: 'alan', age: 70}  // 把这个当做参数了
         this.$store.commit('addStudents', stu)   // 也能这样传值
+      },
+      updateInfo() {
+        this.$store.commit('updateInfo')
       }
     },
     computed: {
