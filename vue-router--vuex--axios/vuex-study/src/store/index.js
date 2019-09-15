@@ -1,8 +1,46 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+// 导入 为 mutation方法 起常量名的 文件
+import{
+    INCREMENT,
+    DECREMENT
+} from './mutation.types'
+
 // 1. 安装插件
 Vue.use(Vuex)
+
+// module 模块分割
+const moduleA = {
+    state: {
+        name: 'zhangsan'
+    },
+    mutations: {
+        updetaName(state, payload) {
+            state.name = payload
+        }
+    },
+    getters: {
+        fullname(state) {
+            return state.name + '111'
+        },
+        fullname2(state, getters) {
+            return getters.fullname + '222'
+        },
+        fullname3(state, getters, rootState) {      // 拿到大的 store 里面的 state -> rootState
+            return getters.fullname2 + rootState.counter
+        }
+    },
+    actions: {
+        aUpdateName(context) {
+            console.log(context)
+            // context.commit('updetaName', 'wangwu')    因为要异步操作,把这个注释掉    // 在模块中的 context.commit() 只找自己模块上的 mutations 中的方法
+            setTimeout(() => {
+                context.commit('updetaName', 'wangwu')
+            }, 1000)
+        }
+    }
+}
 
 // 2. 创建对象
 const store = new Vuex.Store({
@@ -21,10 +59,12 @@ const store = new Vuex.Store({
         }
     },
     mutations: {    // 方法
-        increment(state) {  // 第一个参数,必须是 vuex 的state
+        // 因为为 mutation 里面的方法 起了一个常量的别名,为了多次使用以防弄错, 所以 这里的方法名可以这么起  ['test'](){}    , 官方推荐 在写 mutation 方法的时候,都推荐这么写
+        [INCREMENT](state) {  // 第一个参数,必须是 vuex 的state
             state.counter ++
         },
-        decrement(state) {
+        // 所以 这个方法也要这么去写, 但是下面的我就不改了, 等以后写项目的时候,务必要改,这是一种规范
+        [DECREMENT](state) {
             state.counter --
         },
         // 适配第一种 commit 提交风格的时候， count 就是那个要加多的参数
@@ -47,11 +87,40 @@ const store = new Vuex.Store({
             // Vue.set(state.info, 'address', '洛杉矶')    // 成功， 这样在没有提前初始化的情况下，通过Vue.set 也能添加到 响应式系统中
             // delete state.info.age       // 该方式做不到响应式
 
-            Vue.delete(state.info, 'age')       // 成功，是响应式的
+            // Vue.delete(state.info, 'age')       // 成功，是响应式的
 
+
+            // 讲: 异步操作 , 错误代码, 异步得用 下面的actions
+            // setTimeout(() => {
+            //     state.info.name = 'xiugaile'
+            // },1000)
+            // 这里只提供修改就行啦, 倒时候让 Actions 用 commit 来调,就哦了
+            state.info.name = 'coderwhy'
         }
     },
     actions: {
+        // Action 类似于 Muation , 但是是用来带代替 Mutatioon 进行
+
+        // aUpdateInfo(context, payload) {     // 这里也可以传参数  // 这样传参和回调的方式不优雅,我们注释掉,来个优雅的
+        //     setTimeout(() => {
+        //         // context.state.info.name = 'xiugaile'     // 不能这么做,修改 state 只能通过 mutation
+        //         context.commit('updateInfo')    // 这里的异步操作完,再调 mutation 里面的 那个要执行的方法
+        //         console.log(payload.message)
+        //         payload.success()
+        //     },1000)
+        // }
+
+        // 优雅的 传参和回调    
+        aUpdateInfo(context, payload) {         // 外面 调用了 aUpdateInfo 回返回一个 new Promise 所以外面可以直接拿到这个 又被 resolve处理好的 Promise , 所以外面调用之后,直接可以 .then() 来操作
+            return new Promise((resolve, reject) => {       
+                setTimeout(() => {
+                    context.commit('updateInfo')    
+                    console.log(payload)
+
+                    resolve('1111')
+                },1000)
+            })
+        }        
 
     },
     getters: {
@@ -74,8 +143,15 @@ const store = new Vuex.Store({
             }
         }
     },
-    modules: {
-
+    modules: {      // 为解决 store 太臃肿的问题, 让 modules 分开模块化
+        // a: {
+        //     state: {},
+        //     mutations: {},
+        //     actions: {},
+        //     getters: {},
+        //     // modules: {}     // 一般不会定义这个,不然反而更麻烦了
+        // },
+        a: moduleA      // 获取的是上面 定义的 模块 一些东西在模块里面写好了
     }
 })
 

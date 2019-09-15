@@ -1,0 +1,146 @@
+JSONP封装
+
+let count = 1
+export default function originPJSONP(option) {
+	// 1. 从传入的 option 中提取 URL
+	const url = option.url
+
+	// 2. 在 body 中添加 script 标签
+	const body = document.getElementsByTagName('body')[0]
+	const script = document.createElement('script')
+
+	// 3. 内部生产一个不重复的 callback
+	const callback = 'jsonp' + count ++
+	
+	// 4. 监听 window 上的 jsonp 的调用
+	return new Promise((resolve, reject) => {
+		try {
+			window[callback] = function(result) {
+				body.removeChild(script)
+				resolve(result)
+			}
+			const params = handleParam(option.data)
+			script.src = url + '?callback=' + callback + params
+			body.appendChild(script)
+		} catch (e) {
+			body.removeChild(script)
+			reject(e)
+		}			
+				
+	})
+
+}
+
+function handleParam(data) {
+	let url = ''
+	for(let key in data) {
+		let value = data[key] !== undefined ? data[key] : ''
+		url += `&${encodeURIComponent(value)}`
+	}
+	return url
+}
+
+
+
+
+
+为什么选择axios? 作者推荐和功能特点
+	
+	功能特点:
+		在浏览器中发送 XMLHttpRequests 请求
+		在 node.js 中发送 http请求
+		支持 Promise API
+		拦截请求和响应
+		转换请求和响应数据
+		等等
+
+	支持多种请求方式
+		axios(config)
+		axios.request(config)
+		axios.get(url[,config])
+		axios.delede(url[,config])
+		axios. head(url[,config])
+		axios.post(url[,data[,config]])
+		axios.put(url[,data[,config]])
+		axios.patch(url, data[,config]])
+
+		axios({
+			// url: 'httpbin.org/'
+			url: 'http://123.207.32.32:8000/home/data',
+			// 专门针对 get 请求的参数拼接
+			params: {
+				type: 'pop',
+				page: 1
+			}
+		}).then(res => {
+			console.log(res)
+		})
+
+
+
+
+有时候,我们可能需求同时发送两个请求
+	使用 axios.all, 可以放入多个请求的数组
+	axios.all([]) 返回的结果是一个数组,使用 axios.spread 可将数组 [res1, res2] 展开为 res1, res2 	
+		created() {
+
+			axios.all([axios({
+				url: 'http://123.207.32.32:8000/home/multidata'
+			}), axios({
+				url: 'http://123.207.32.32:8000/home/data',
+				params: {
+					type: 'sell',
+					page: 3
+				}
+			})])
+				.then(axios.spread((res1, res2) => {
+					console.log(res1)
+					console.log(res2)
+				}))
+				// 下面这样的也可以
+//				.then(results => {
+//					console.log(results[0])
+//					console.log(results[1])
+//				})
+
+		}
+
+
+
+
+全局配置
+	在上面的示例中,我们的 BaseURL 是固定的
+		事实上,在开发中可能很多参数都是固定的
+		这个时候我们可以进行一些抽取,也可以利用 axios 的全局配置
+			axios.defaults.baseURL = 'http://123.207.32.32:8000'
+			axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+
+常见的配置选项:
+	请求地址:
+		url: '/user'
+	请求类型:
+		method: 'get'
+	请求根路径:
+		baseURL: 'http://www.mt.com/api'
+	请求前的数据处理:
+		transformRequest: [function(data){}]		
+	请求后的数据处理:
+		transformResponse: [function(data){}]	
+	自定义的请求头:
+		headers:{'x-Requested-With':'XMLHttpRequest'}	
+	URL查询对象:
+		params: {id: 12}	
+	查询对象序列化函数:
+		paramsSerializer: function(params){}
+	request body:
+		data: {key: 'aa'}
+	超时设置s:	
+		timeout: 1000
+	跨域是否带 Token:
+		withCredentials: false
+	自定义请求处理:
+		adapter: function(resolve, reject, config) {}
+	身份验证信息:
+		auth: {uname:'', pwd: '123'}
+	响应的数据格式 json/blob/document/arraybuffer/text/stream :
+		responseType: 'json'
