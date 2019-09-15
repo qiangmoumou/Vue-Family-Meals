@@ -37,28 +37,105 @@ new Vue({
 
 
 
-// 2. axios 发送并发请求  配置baseURL和'application/x-www-form-urlencoded'和超时时间等等 这样配置太麻烦,一般来说,直接进行全局配置
-axios.defaults.baseURL = 'http://123.207.32.32:8000'
-axios.defaults.timeout = 5000
+// 2. 使用全局的 axios 发送并发请求  配置baseURL和'application/x-www-form-urlencoded'和超时时间等等 这样配置太麻烦,一般来说,直接进行全局配置
+// axios.defaults.baseURL = 'http://123.207.32.32:8000/api/v1'
+// axios.defaults.timeout = 5000
 
-axios.all([axios({
-  // baseURL: 'http://123.207.32.32:8000',     // 设置域名  // 有了全局配置.这里就不需要配置了
-  // timeout: 5,     // 设置超时时间
-  url: '/api/v1/home/multidata'
-}), axios({
-  // baseURL: 'http://123.207.32.32:8000',
-  url: '/api/v1/home/data',
-  params: {
-    type: 'sell',
-    page: 3
-  }
-})])
-  .then(axios.spread((res1, res2) => {
-    console.log(res1)
-    console.log(res2)
-  }))
-  // 下面这样的也可以
-  // .then(results => {
-  //   console.log(results[0])
-  //   console.log(results[1])
-  // })  
+// axios.all([axios({
+//   // baseURL: 'http://123.207.32.32:8000/api/v1',     // 设置域名  // 有了全局配置.这里就不需要配置了
+//   // timeout: 5,     // 设置超时时间
+//   url: '/home/multidata'
+// }), axios({
+//   // baseURL: 'http://123.207.32.32:8000/api/v1',
+//   url: '/home/data',
+//   params: {
+//     type: 'sell',
+//     page: 3
+//   }
+// })])
+//   .then(axios.spread((res1, res2) => {
+//     console.log(res1)
+//     console.log(res2)
+//   }))
+//   // 下面这样的也可以
+//   // .then(results => {
+//   //   console.log(results[0])
+//   //   console.log(results[1])
+//   // })  
+
+
+
+  // 3. 创建对应的 axios 的 实例
+  // const instance1 = axios.create({
+  //   baseURL: 'http://123.207.32.32:8000/api/v1',
+  //   timeout: 5000
+  // })
+
+  // instance1({
+  //   url: '/home/multidata'
+  // }).then(res => {
+  //   console.log(res)
+  // })
+
+  // instance1({
+  //   url: '/home/data',
+  //   params: {
+  //     type: 'pop',
+  //     page: 1
+  //   }
+  // }).then(res => {
+  //   console.log(res)
+  // })
+
+// 另外一个 axios 实例
+  // const instance2 = axios.create({
+  //   baseURL: 'http://222.111.33.33:8000',
+  //   timeout: 5000,
+  //   // headers: {  }
+  // })
+
+
+  // 4. 封装 request 模块
+  import {request} from './network/request'
+
+  // 最终封装方式的用法
+  request({
+    url: '/home/multidata'
+  }).then(res => {
+    console.log(res)
+  }).catch(err => {
+    console.log(err)
+  })  
+
+
+  // Promise封装方式的用法
+  // request({
+  //   url: '/home/multidata'
+  // }).then(res => {
+  //   console.log(res)
+  // }).catch(err => {
+  //   console.log(err)
+  // })
+
+
+  // 第一种封装方式的用法
+  // request({
+  //   url: '/home/multidata'
+  // }, res => {
+  //   console.log(res)
+  // }, err => {
+  //   console.log(err)
+  // })
+
+  // 第二种封装方式的用法
+  // request({
+  //   baseConfig: {
+
+  //   },
+  //   success: function (res) {
+
+  //   },
+  //   failure: function (err) {
+
+  //   }
+  // })
