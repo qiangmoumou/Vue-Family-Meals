@@ -1,6 +1,6 @@
 export default {
 
-  // Action 类似于 Muation , 但是是用来带代替 Mutatioon 进行
+  // Action 类似于 Mutation , 但是是用来带代替 Mutatioon 进行
 
   // aUpdateInfo(context, payload) {     // 这里也可以传参数  // 这样传参和回调的方式不优雅,我们注释掉,来个优雅的
   //     setTimeout(() => {

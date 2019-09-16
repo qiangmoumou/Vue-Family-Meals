@@ -26,11 +26,12 @@ vuex有几个比较核心的概念:
   Actions  : 做一些异步操作
     通过 commit 调用 mutations 里面的方法
     因为 Actions 操作的都是异步, 所以 在外部调用 Actions 里面的方法的时候, 可以直接返回一个 Promise , 在外部就可以直接操作.then()
+    $store.dispatch('Actions里面的方法')
 
   Module : 划分模块
     当应用变得非常复杂时,store 对象就有可能变得相当臃肿,
     为了解决这个问题,Vuex允许我们将 store 分割成模块,而每个模块拥有自己的 state/ mutations/ actions/ getters 等
-
+    
 
 
 项目解构:

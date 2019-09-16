@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- tag="div"  可以把router-link 渲染成 div 标签显示 -->
-    <!-- 默认是 history.pushState 所以有历史记录, 如果不想要历史记录不想让用户点击返回建 就换成 hostory.replaceState    在这里直接在 router-link 里面 写 replace 就行 -->
+    <!-- 我们设置了history就默认 history.pushState 所以有历史记录, 如果不想要历史记录不想让用户点击返回建 就换成 hostory.replaceState    在这里直接在 router-link 里面 写 replace 就行 -->
     <router-link to="/home" tag="button" replace>首页</router-link>
     <router-link to="/about" tag="button" replace>关于</router-link>
     <!-- 为了演示,先把这两给注释掉 -->

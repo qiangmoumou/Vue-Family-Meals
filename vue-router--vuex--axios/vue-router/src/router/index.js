@@ -89,7 +89,7 @@ const router = new Router({
   routes,
   // 这里默认的是 hash 修改 URL 的模式, 但是 老有一个 # 号,不好看, 所以现在选择了 H5 的 history
   mode: 'history',
-  linkActiveClass: 'active',
+  linkActiveClass: 'active',    // 高亮类
 
 })
 

@@ -93,7 +93,7 @@
         //   }
         // })
 
-        // 有的传参和回调
+        // 有的传参和回调   this.$store.dispatch('Actions里面的方法')
         this.$store.dispatch('aUpdateInfo', '我是携带的信息').then(res => {     // this.$store.dispatch调完 actions 里面的方法 aUpdateInfo 这个方法,返回的是 一个 new Promise , 因为这里是个 Promise, 而且也 resolve给 then()了 , 所以这里直接可以跟 then()
           console.log('里面已经完成了提交')
           console.log(res)
