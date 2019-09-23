@@ -3,6 +3,7 @@
         <div v-if="!isActive"><slot name="item-icon"></slot></div>
         <div v-else><slot name="item-icon-active"></slot></div>
         <!-- 因为写在外面的插槽内容会直接替换掉这个插槽，所以为了实现class，就是能给这个插槽包裹一个 div -->
+        <!-- 用计算属性 绑定一个动态属性  -->   
         <div :style="activeStyle"><slot name="item-text"></slot></div>
         
         <!-- 不想写死，所以要搞两个插槽 -->
@@ -16,6 +17,7 @@
         // 动态 props
         props: {
             path: String,
+            // 拿过来的 activeColor
             activeColor: {
                 // 类型
                 type: String,

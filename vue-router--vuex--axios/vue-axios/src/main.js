@@ -14,21 +14,26 @@ new Vue({
 })
 
 
-// 1. axios的基本使用
+// 1. axios的基本使用,默认是 get 请求
 // axios({
 //   // url: 'httpbin.org/'
 //   url: 'http://123.207.32.32:8000/api/v1/home/multidata',
+//   method: 'get'  // 用method方法 手动配置 get 请求,写post 就是 post 请求
 // }).then(res => {
 //   console.log(res)
 // })
 
+// 也可以这么来写,进行 get post 等请求  另一种写法
+// axios.get()
+
+// 可以写参数的 axios 请求方式 params里面写参数
 // axios({
 //   // url: 'httpbin.org/'
 //   url: 'http://123.207.32.32:8000/api/v1/home/data',
 //   // 专门针对 get 请求的参数拼接
-//   params: {
-//     type: 'pop',
-//     page: 1
+//   params: {        // 参数:
+//     type: 'pop',     // 类型
+//     page: 1          // 页面
 //   }
 // }).then(res => {
 //   console.log(res)

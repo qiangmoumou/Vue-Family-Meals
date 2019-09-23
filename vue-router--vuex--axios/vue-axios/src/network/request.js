@@ -19,7 +19,7 @@ export function request(config) {
 
             // 3). 某些网络请求（比如登陆(token)）,必须携带一些特殊的信息
 
-            return config
+            return config   // 外面会打印错误,因为已经拦截住了,外面用,就得 return 出去
         }, err => {
             // console.log(err)
         });
@@ -27,7 +27,7 @@ export function request(config) {
         // 2.2 响应拦截
         instance.interceptors.response.use(res => {
             console.log(res)
-            return res.data
+            return res.data       // 外面会打印错误,因为已经拦截住了,外面用,就得 return 出去
         }, err => {
             console.log(err)
             return err

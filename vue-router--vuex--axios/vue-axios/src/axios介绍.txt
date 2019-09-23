@@ -119,7 +119,8 @@ function handleParam(data) {
 	请求地址:
 		url: '/user'
 	请求类型:
-		method: 'get'
+		method: 'get'		参数用的是 URL查询对象:  params{id: 3}
+		method: 'post'  上传的参数用的是 request body: data: {key: 'aa'}
 	请求根路径:
 		baseURL: 'http://www.mt.com/api'
 	请求前的数据处理:
